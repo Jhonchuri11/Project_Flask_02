@@ -1,0 +1,99 @@
+{% extends "./layout.html" %}
+
+{% block title %} {{Hola}} {% endblock %}
+{% block body %}
+
+
+<table class="table table-bordered mt-2">
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Nuevo registro
+    </button>
+    <thead >
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-info mt-2" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <tr>
+            <td class="fw-bold">ID</td>
+            <td class="fw-bold">Nombres</td>
+            <td class="fw-bold">Apellidos</td>
+            <td class="fw-bold">Carrera</td>
+            <td class="fw-bold">Pais</td>
+            <td class="fw-bold">Acción</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for empleado in empleados %}
+        <tr>
+            <td class="fw-normal">{{ empleado.0 }}</td>
+            <td class="fw-normal">{{ empleado.1 }}</td>
+            <td class="fw-normal">{{ empleado.2 }}</td>
+            <td class="fw-normal">{{ empleado.3 }}</td>
+            <td class="fw-normal">{{ empleado.4 }} </td>
+            <td>
+                <a class="btn btn-success" href="/edit/{{ empleado.0 }}">Editar</a>
+                <a class="btn btn-danger" href="#" onclick="confimarEliminar('{{ empleado.0 }}')">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Registro de nuevo empleado</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="/insert_empleado" method="POST">
+                <fieldset>
+                  <legend>Completar los datos</legend>
+                  <div class="mb-3">
+                    <label class="form-label">Nombres</label>
+                    <input type="text" name="nombre" class="form-control" placeholder="Ingresar nombres">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Apellidos</label>
+                    <input type="text" name="apellido" class="form-control" placeholder="Ingresar apellidos">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Teléfono</label>
+                    <input type="number" name="telefono" class="form-control" placeholder="Número de teléfono">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Carrera</label>
+                    <input type="text" name="carrera" class="form-control" placeholder="Carrera especializada">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">País</label>
+                    <input type="text" name="pais" class="form-control" placeholder="País de origen">
+                  </div>
+                </fieldset>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <input type="submit" class="btn btn-primary" value="Registrar">
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
+  <script>
+    function confimarEliminar(empleadoId) {
+        var confirmacion = confirm('Esta seguro de eliminar el siguiente empleado?');
+        if (confirmacion) {
+            window.location.href = '/delete/' + empleadoId;
+        }
+    }
+  </script>
+
+{% endblock %}

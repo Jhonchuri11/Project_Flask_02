@@ -1,0 +1,26 @@
+{% extends "./layout.html" %}
+
+{% block title %} {{data.titulo}} {% endblock %}
+
+{% block body %}
+    <p>
+      Saludo:   {{data.bienvenido}}
+    </p>
+    <p>
+        CURSOS:
+        <ul>
+            {% for c in data.cursos %}
+            <li>
+                {{ c }}
+            </li>
+            {% endfor %}
+        </ul>
+    </p>
+    <form method="POST" action="">
+        <H1>Ingresar data </H1> <br>
+        Nombres <input type = "text" name= "nombre" /> <br>
+        Apellidos <input type = "text" name = "apellido" /> <br>
+        <input type = "submit">
+    </form>
+    <a href="/add">Ir agregar cliente</a>
+{% endblock %}

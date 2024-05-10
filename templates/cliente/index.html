@@ -1,0 +1,42 @@
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<p>{{ message }}</p>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<form action="/insert" method="POST">
+    <h2>Registro de cliente</h2>
+    <label>Nombre: </label>
+    <input type="text" name="nombre" placeholder="Ingresar nombres">
+    <label>Apellidos: </label>
+    <input type="text" name="apellido" placeholder="Ingresar apellidos">
+    <label>Edad: </label>
+    <input type="number" name="edad" placeholder="Ingresar edad">
+    <input type="submit" value="Enviar">
+</form>
+<table>
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>NOMBRE</td>
+            <td>APELLIDO</td>
+            <td>EDAD</td>
+            <td>OPERACIONES</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for clien in clients %}
+        <tr>
+            <td>{{ clien.0 }}</td>
+            <td>{{ clien.1 }}</td>
+            <td>{{ clien.2 }}</td>
+            <td>{{ clien.3 }}</td>
+            <td>
+                <a href="/edit/{{ clien.0 }}">Editar</a>
+                <a href="/delete/{{ clien.0 }}">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
